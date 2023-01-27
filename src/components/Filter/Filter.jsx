@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { filter } from 'redux/filter/filterSlice';
-import { getFilter } from 'redux/filter/filter-selectors';
+import { selectFilter } from 'redux/filter/filter-selectors';
 
 export const Filter = () => {
-  const dispatch = useDispatch(getFilter);
+  const dispatch = useDispatch(selectFilter);
   return (
     <div>
       Find contacts by name
@@ -16,8 +16,3 @@ export const Filter = () => {
     </div>
   );
 };
-
-// Filter.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   onFilter: PropTypes.func.isRequired,
-// };

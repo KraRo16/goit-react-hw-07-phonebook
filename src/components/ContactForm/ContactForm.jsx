@@ -1,33 +1,21 @@
-import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addContacts } from 'redux/contacts/contactsSlice';
 import { nanoid } from 'nanoid';
+import { addContacts } from 'redux/contacts/contacts-operations';
+
+const NameId = nanoid();
+const NumberId = nanoid();
 
 const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
   const dispatch = useDispatch();
 
   const onSubmit = e => {
     e.preventDefault();
-    const contact = { name, number, id: nanoid() };
-    dispatch(addContacts(contact));
-    formReset();
-  };
-
-  const formReset = () => {
-    setName('');
-    setNumber('');
-  };
-
-  const onChangeName = e => {
-    setName(e.currentTarget.value);
-  };
-
-  const onChangeTel = e => {
-    setNumber(e.currentTarget.value);
+    const elem = e.target.elements;
+    // const contact = { name, number, id: nanoid() };
+    dispatch(addContacts({ name: elem.name.value, phone: elem.phone.value }));
+    elem.name.value = '';
+    elem.phone.value = '';
   };
 
   return (
@@ -35,9 +23,8 @@ const ContactForm = () => {
       <label>
         Name:
         <input
+          id={NameId}
           type="text"
-          onChange={onChangeName}
-          value={name}
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
@@ -47,10 +34,9 @@ const ContactForm = () => {
       <label>
         Number:
         <input
+          id={NumberId}
           type="tel"
-          value={number}
-          onChange={onChangeTel}
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
           required
@@ -64,7 +50,3 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
-
-// ContactForm.propTypes = {
-//   onSubmitForm: PropTypes.func.isRequired,
-// };
